@@ -99,6 +99,11 @@ public class NodeService {
         return nodeDtos;
     }
 
+    public NodeDto getNode(String name) {
+        Node node = nodeRepository.getNodeByName(name);
+        return new NodeDto(node.getName(),node.getDevEui(),node.getAppEui(),node.getLocation().getLatitude(),node.getLocation().getLongitude());
+    }
+
     public DataSenzorDto sendData(String name) {
         List<Float> temperature = nodeRepository.getTemperatureByNameNode(name);
         List<Float> humidity = nodeRepository.getHumidityByNameNode(name);
@@ -160,28 +165,21 @@ public class NodeService {
     }
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
-    public List<MessagePayloadDto> getNodeByName(String name) {
+    public List<MessagePayloadDto> getNodeByName(String name,int limSup,int limInf) {
 
-
-        Date date = new Date();
-        System.out.println(date.toString());
-
-        List<Message> messages = messageRepository.getPayloadByNameAi(name);
+        List<AcquisitionDate> messages = messageRepository.getPayloadByName(name,limSup,limInf);
         List<MessagePayloadDto> messagePayloadDtos = new ArrayList<>();
-        Date date2 = new Date();
-        System.out.println(date2.toString());
-        for (Message message : messages) {
-
-            MessagePayloadDto messagePayloadDto = new MessagePayloadDto();
-            messagePayloadDto.setHumidity(message.getPayload().getHumidity().getValue());
-            messagePayloadDto.setAirQuality(message.getPayload().getAirQuality().getValue());
-            messagePayloadDto.setTemperature(message.getPayload().getTemperature().getValue());
-            messagePayloadDto.setDate(message.getPayload().getRecvPayload());
+        for(AcquisitionDate date:messages)
+        {
+            MessagePayloadDto messagePayloadDto=new MessagePayloadDto();
+            messagePayloadDto.setAirQuality(date.getAirQ());
+            messagePayloadDto.setHumidity(date.getHum());
+            messagePayloadDto.setTemperature(date.getTemp());
+            messagePayloadDto.setDate(date.getDate());
             messagePayloadDtos.add(messagePayloadDto);
-
         }
-        Date date1 = new Date();
-        System.out.println(date1.toString());
+
+
         return messagePayloadDtos;
     }
 

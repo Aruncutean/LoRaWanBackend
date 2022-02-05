@@ -43,6 +43,11 @@ public class ControllerNode {
         return nodeService.getAllNode();
     }
 
+    @GetMapping("/getNode/{name}")
+    public NodeDto getNode(@PathVariable(value = "name") String name) {
+        return nodeService.getNode(name);
+    }
+
     @GetMapping("/getData/{name}")
     public DataSenzorDto getData(@PathVariable(value = "name") String name) {
         return nodeService.sendData(name);
@@ -58,10 +63,13 @@ public class ControllerNode {
         return nodeService.getMyStation(email);
     }
 
-    @GetMapping("getPayload/{name}")
-    public List<MessagePayloadDto> getPayload(@PathVariable(value = "name") String name) {
+    @GetMapping("getPayload/{name}/{limSup}/{limInf}")
+    public List<MessagePayloadDto> getPayload(@PathVariable(value = "name") String name,
+                                              @PathVariable(value = "limSup") int limSup,
+                                              @PathVariable(value = "limInf") int limInf
+    ) {
 
-        return nodeService.getNodeByName(name);
+        return nodeService.getNodeByName(name,limSup,limInf);
     }
 
     @PostMapping("/newLocation")
