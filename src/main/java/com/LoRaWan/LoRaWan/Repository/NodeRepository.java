@@ -85,8 +85,8 @@ public interface NodeRepository extends JpaRepository<Node, Integer> {
     @Modifying
     @Transactional
     @Query(value = "select DATE(payload.recv_payload) as date,AVG(h.value) as val from humidity as h, payload, message, node\n" +
-            "where h.id=payload.humidity  and payload.id=message.payload_id  and Date(payload.recv_payload)>:Date\n" +
-            "and message.node_id=(select node.id where  node.name=:Node)\n" +
+            "where h.id=payload.humidity  AND payload.id=message.payload_id AND Date(payload.recv_payload)>:Date\n" +
+            "AND message.node_id=(select node.id where  node.name=:Node)\n" +
             "group by DATE(payload.recv_payload);", nativeQuery = true)
     public List<GraphRequest> getHumidityForDate(@Param("Node") String node, @Param("Date") Date date);
 
@@ -94,8 +94,8 @@ public interface NodeRepository extends JpaRepository<Node, Integer> {
     @Modifying
     @Transactional
     @Query(value = "select DATE(payload.recv_payload) as date,AVG(t.value) as val from temperature as t, payload, message, node\n" +
-            "where t.id=payload.temperature  and payload.id=message.payload_id  and Date(payload.recv_payload)>:Date\n" +
-            "and message.node_id=(select node.id where  node.name=:Node)\n" +
+            "where t.id=payload.temperature  AND payload.id=message.payload_id  AND Date(payload.recv_payload)>:Date\n" +
+            "AND message.node_id=(select node.id where  node.name=:Node)\n" +
             "group by DATE(payload.recv_payload);", nativeQuery = true)
     public List<GraphRequest> getTemperatureForDate(@Param("Node") String node, @Param("Date") Date date);
 
@@ -103,8 +103,8 @@ public interface NodeRepository extends JpaRepository<Node, Integer> {
     @Modifying
     @Transactional
     @Query(value = "select DATE(payload.recv_payload) as date,AVG(a.value) as val from air_quality as a, payload, message, node\n" +
-            "where a.id=payload.air_quality  and payload.id=message.payload_id  and Date(payload.recv_payload)>:Date\n" +
-            "and message.node_id=(select node.id where  node.name=:Node)\n" +
+            "where a.id=payload.air_quality  AND payload.id=message.payload_id  AND Date(payload.recv_payload)>:Date\n" +
+            "AND message.node_id=(select node.id where  node.name=:Node)\n" +
             "group by DATE(payload.recv_payload);", nativeQuery = true)
     public List<GraphRequest> getAirQualityForDate(@Param("Node") String node, @Param("Date") Date date);
 

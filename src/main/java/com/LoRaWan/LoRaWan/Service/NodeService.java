@@ -283,6 +283,7 @@ public class NodeService {
 
         Date dateC = c.getTime();
         System.out.println(dateC.toString());
+        System.out.println(name);
         List<GraphRequest> humidity = nodeRepository.getHumidityForDate(name, dateC);
         List<GraphRequest> temperature = nodeRepository.getTemperatureForDate(name, dateC);
         List<GraphRequest> airQuality = nodeRepository.getAirQualityForDate(name, dateC);
