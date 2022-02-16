@@ -9,6 +9,7 @@ import com.LoRaWan.LoRaWan.Exception.ExceptionNotFoundEmail;
 import com.LoRaWan.LoRaWan.Exception.ExceptionPasswordIncorrect;
 import com.LoRaWan.LoRaWan.Service.UserService;
 import com.LoRaWan.LoRaWan.Util.JwtUtil;
+import io.jsonwebtoken.ExpiredJwtException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -22,7 +23,6 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 
 @RestController
-
 public class UserController {
 
     @Autowired
@@ -34,28 +34,19 @@ public class UserController {
     @Autowired
     private JwtUtil jwtTokenUtil;
 
-    @GetMapping("/hello")
-    public String get() {
-        return "da";
-
-    }
-
     @PostMapping("/addUser")
     public MessageDTO addUser(@RequestBody UserDto user) {
         String message = "Account is create";
         try {
             userService.addUser(user);
-
         } catch (ExceptionEmailExists e) {
             message = "Email exists";
         }
-
         return new MessageDTO(message);
     }
 
     @GetMapping("/userInfo/{email}")
     public UserInfo setUserRol(@PathVariable(value = "email") String email) {
-
         return userService.getUserInfo(email);
     }
 
@@ -63,12 +54,12 @@ public class UserController {
     public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthenticationDTO authenticationDTO) throws Exception {
         String message = "Ok!!";
         System.out.println(authenticationDTO.getEmail() + " " + authenticationDTO.getPassword());
-
         UserDetails userDetails = null;
         String jwt = "";
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authenticationDTO.getEmail(), authenticationDTO.getPassword()));
         } catch (BadCredentialsException e) {
+
         }
         try {
             userDetails = userService.loadUserByEmail(authenticationDTO.getEmail(), authenticationDTO.getPassword());
@@ -78,7 +69,6 @@ public class UserController {
 
         } catch (ExceptionPasswordIncorrect e) {
             message = "Password is incorrect!!!";
-
         }
         return ResponseEntity.ok(new AuthenticationResponse(jwt, message));
     }

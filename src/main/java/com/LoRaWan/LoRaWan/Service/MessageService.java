@@ -46,13 +46,13 @@ public class MessageService {
 
 
         Humidity humidity = new Humidity();
-        humidity.setValue(Float.parseFloat(payloadString[0]));
+        humidity.setValue(Float.parseFloat(payloadString[1].split(":")[1]));
 
         Temperature temperature = new Temperature();
-        temperature.setValue(Float.parseFloat(payloadString[1]));
+        temperature.setValue(Float.parseFloat(payloadString[0].split(":")[1]));
 
         AirQuality airQuality = new AirQuality();
-        airQuality.setValue(Float.parseFloat(payloadString[2]));
+        airQuality.setValue(Float.parseFloat(payloadString[2].split(":")[1]));
 
         payload.setHumidity(humidity);
         payload.setAirQuality(airQuality);
@@ -62,7 +62,9 @@ public class MessageService {
         message.setPayload(payload);
         message.setNode(node);
 
-        node.getStatus().setBatteryPower(Float.parseFloat(payloadString[3]));
+        float voltage=Float.parseFloat(payloadString[3].split(":")[1]);
+
+        node.getStatus().setBatteryPower((voltage*100)/5);
         node.getStatus().setActive(true);
 
         messageRepository.save(message);

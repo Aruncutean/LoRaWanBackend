@@ -101,7 +101,8 @@ public class NodeService {
 
     public NodeDto getNode(String name) {
         Node node = nodeRepository.getNodeByName(name);
-        return new NodeDto(node.getName(),node.getDevEui(),node.getAppEui(),node.getLocation().getLatitude(),node.getLocation().getLongitude());
+        System.out.println(node.getName());
+        return new NodeDto(node.getName(), node.getDevEui(), node.getAppEui(), node.getLocation().getLatitude(), node.getLocation().getLongitude());
     }
 
     public DataSenzorDto sendData(String name) {
@@ -165,13 +166,12 @@ public class NodeService {
     }
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
-    public List<MessagePayloadDto> getNodeByName(String name,int limSup,int limInf) {
+    public List<MessagePayloadDto> getNodeByName(String name, int limSup, int limInf) {
 
-        List<AcquisitionDate> messages = messageRepository.getPayloadByName(name,limSup,limInf);
+        List<AcquisitionDate> messages = messageRepository.getPayloadByName(name, limSup, limInf);
         List<MessagePayloadDto> messagePayloadDtos = new ArrayList<>();
-        for(AcquisitionDate date:messages)
-        {
-            MessagePayloadDto messagePayloadDto=new MessagePayloadDto();
+        for (AcquisitionDate date : messages) {
+            MessagePayloadDto messagePayloadDto = new MessagePayloadDto();
             messagePayloadDto.setAirQuality(date.getAirQ());
             messagePayloadDto.setHumidity(date.getHum());
             messagePayloadDto.setTemperature(date.getTemp());
