@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @RestController
@@ -23,11 +24,13 @@ public class ControllerGateway {
     private MessageService messageService;
 
     @PostMapping("/addMessage")
-    public String addMessage(@RequestBody MessageGateway messageGateway) {
+    public void addMessage(@RequestBody MessageGateway messageGateway, HttpServletResponse response) {
         Node node = nodeService.getNodeByDevEui(messageGateway.getMetadata().getNetwork().getLora().getDevEUI());
         if (node != null) {
             messageService.addMessage(messageGateway);
+        } else {
+            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
         }
-        return "Da";
+        response.setStatus(HttpServletResponse.SC_OK);
     }
 }

@@ -17,7 +17,6 @@ public class Temperature {
 
     private Float value;
 
-
     @OneToOne(mappedBy = "temperature",orphanRemoval = true,fetch = FetchType.LAZY)
     private Payload payload;
 

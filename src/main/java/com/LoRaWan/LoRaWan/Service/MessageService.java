@@ -18,11 +18,6 @@ public class MessageService {
     @Autowired
     private MessageRepository messageRepository;
 
-    @Autowired
-    private GatewayRepository gatewayRepository;
-
-    @Autowired
-    private StatusRepository statusRepository;
 
     public void addMessage(MessageGateway messageGateway) {
         Message message = new Message();
@@ -43,7 +38,6 @@ public class MessageService {
         String messagePayload = Conversion.fromHexString(messageGateway.getValue().getPayload());
 
         String payloadString[] = messagePayload.split(";");
-
 
         Humidity humidity = new Humidity();
         humidity.setValue(Float.parseFloat(payloadString[1].split(":")[1]));
@@ -70,10 +64,5 @@ public class MessageService {
         messageRepository.save(message);
 
     }
-
-    public void getHumidity() {
-        List<Message> messages = messageRepository.findAll();
-    }
-
 
 }

@@ -1,12 +1,10 @@
 package com.LoRaWan.LoRaWan.Service;
 
-import com.LoRaWan.LoRaWan.Date.Rol;
 import com.LoRaWan.LoRaWan.Dto.UserDto;
 import com.LoRaWan.LoRaWan.Dto.UserInfo;
 import com.LoRaWan.LoRaWan.Exception.ExceptionEmailExists;
 import com.LoRaWan.LoRaWan.Exception.ExceptionNotFoundEmail;
 import com.LoRaWan.LoRaWan.Exception.ExceptionPasswordIncorrect;
-import com.LoRaWan.LoRaWan.Repository.RolRepository;
 import com.LoRaWan.LoRaWan.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
@@ -16,7 +14,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.List;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -24,8 +21,6 @@ public class UserService implements UserDetailsService {
     @Autowired
     private UserRepository userRepository;
 
-    @Autowired
-    private RolRepository rolRepository;
 
 
     public void addUser(UserDto user) throws ExceptionEmailExists {
@@ -38,19 +33,13 @@ public class UserService implements UserDetailsService {
             userSaveInDataBase.setLastName(user.getLastName());
             userSaveInDataBase.setPassword(user.getPassword());
             userRepository.save(userSaveInDataBase);
-
-            Rol rol = new Rol();
-            rol.setRol("user");
-            rol.setUser(userSaveInDataBase);
-            rolRepository.save(rol);
         } else {
             throw new ExceptionEmailExists();
         }
     }
 
-
     public UserDetails loadUserByEmail(String email, String password) throws ExceptionPasswordIncorrect, ExceptionNotFoundEmail {
-        com.LoRaWan.LoRaWan.Date.User user = userRepository.getUserByEmail(email);
+       com.LoRaWan.LoRaWan.Date.User user = userRepository.getUserByEmail(email);
 
         if (user != null) {
             if (!password.equals(user.getPassword())) {

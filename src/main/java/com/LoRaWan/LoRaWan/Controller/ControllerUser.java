@@ -1,7 +1,6 @@
 package com.LoRaWan.LoRaWan.Controller;
 
 
-import com.LoRaWan.LoRaWan.Date.User;
 import com.LoRaWan.LoRaWan.Dto.*;
 
 import com.LoRaWan.LoRaWan.Exception.ExceptionEmailExists;
@@ -9,22 +8,18 @@ import com.LoRaWan.LoRaWan.Exception.ExceptionNotFoundEmail;
 import com.LoRaWan.LoRaWan.Exception.ExceptionPasswordIncorrect;
 import com.LoRaWan.LoRaWan.Service.UserService;
 import com.LoRaWan.LoRaWan.Util.JwtUtil;
-import io.jsonwebtoken.ExpiredJwtException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
-
-import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @CrossOrigin
-public class UserController {
+@RequestMapping(path = "user")
+public class ControllerUser {
 
     @Autowired
     private UserService userService;
@@ -53,8 +48,11 @@ public class UserController {
 
     @RequestMapping(value = "/authenticate", method = RequestMethod.POST)
     public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthenticationDTO authenticationDTO) throws Exception {
+
         String message = "Ok!!";
-        System.out.println(authenticationDTO.getEmail() + " " + authenticationDTO.getPassword());
+        System.out.println("Da");
+        System.out.println(authenticationDTO.getEmail());
+        System.out.println(authenticationDTO.getPassword());
         UserDetails userDetails = null;
         String jwt = "";
         try {
@@ -73,11 +71,4 @@ public class UserController {
         }
         return ResponseEntity.ok(new AuthenticationResponse(jwt, message));
     }
-
-    @PutMapping("/userInfo/{email}")
-    public void makeUserAdmin() {
-
-    }
-
-
 }

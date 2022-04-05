@@ -19,7 +19,6 @@ public class User {
     @ApiModelProperty(hidden = true)
     private Integer id;
 
-
     private String userName;
     private String firstName;
     private String lastName;
@@ -31,9 +30,6 @@ public class User {
     @CreationTimestamp
     @ApiModelProperty(hidden = true)
     private Date createUser;
-
-    @OneToOne(mappedBy = "user",orphanRemoval = true,fetch = FetchType.LAZY)
-    private Rol rol;
 
     @OneToMany(mappedBy = "user")
     private List<Node> nodeList;
