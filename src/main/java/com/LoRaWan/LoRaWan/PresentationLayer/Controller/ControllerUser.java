@@ -48,9 +48,6 @@ public class ControllerUser {
     public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthenticationDTO authenticationDTO) throws Exception {
 
         String message = "Ok!!";
-        System.out.println("Da");
-        System.out.println(authenticationDTO.getEmail());
-        System.out.println(authenticationDTO.getPassword());
         UserDetails userDetails = null;
         String jwt = "";
         try {
@@ -67,6 +64,7 @@ public class ControllerUser {
         } catch (ExceptionPasswordIncorrect e) {
             message = "Password is incorrect!!!";
         }
+
         return ResponseEntity.ok(new AuthenticationResponse(jwt, message));
     }
 }

@@ -10,12 +10,7 @@ import javax.persistence.Id;
 import java.util.Date;
 
 public interface GraphRequest {
-
-
     public Date getDate();
     public Integer getMonth();
     public Float getVal();
-
-
-
 }
