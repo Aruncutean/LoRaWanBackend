@@ -48,6 +48,7 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
                 .antMatchers("/date/getLast7Day/{name}").permitAll()
                 .antMatchers("/date/getLastMonth/{name}").permitAll()
                 .antMatchers("/date/getLastYear/{name}").permitAll()
+                .antMatchers("/node/deleteNode/{name}").permitAll()
                 .antMatchers("/swagger-ui.html").permitAll()
                 .antMatchers("/swagger-ui/**").permitAll()
                 .antMatchers("/webjars/**").permitAll()
