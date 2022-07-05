@@ -29,7 +29,7 @@ public class ControllerNode {
     }
 
     @CrossOrigin
-    @DeleteMapping("/deleteNode/{name}")
+    @GetMapping("/deleteNode/{name}")
     public void deleteNode(@PathVariable(value = "name") String name, HttpServletResponse response) {
         try {
             nodeService.deleteNode(name);
