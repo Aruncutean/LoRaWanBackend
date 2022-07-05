@@ -44,7 +44,6 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
                 .antMatchers("/user/addUser").permitAll()
                 .antMatchers("/node/getAllNode").permitAll()
                 .antMatchers("/node/getData/{name}").permitAll()
-                .antMatchers("/node/deleteNode/{name}").permitAll()
                 .antMatchers("/message/addMessage").permitAll()
                 .antMatchers("/date/getLast7Day/{name}").permitAll()
                 .antMatchers("/date/getLastMonth/{name}").permitAll()
